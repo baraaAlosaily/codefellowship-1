@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Hello world</p>
+<h1>user</h1>
+<h2>Current user: <span th:text="${username.username}"></span></h2>
+<div class="new">
+    <div style="border: 2px solid red;
+border-radius:5px;" >
+        <p>firstname<span th:text="${username.firstname}"></span></span></p>
+        <p>lastname<span th:text="${username.lastname}"></span></span></p>
+        <p>dateOfBirth<span th:text="${username.dateOfBirth}"></span> song</p>
+        <p>bio<span th:text="${username.bio}"></span> seconds</p>
+        <br>
+    </div>
+</body>
+</html>
