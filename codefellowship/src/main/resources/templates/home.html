@@ -1,21 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+    <style>
+        .nav-link{
+        color:white;
+        }
+    </style>
 </head>
 <body>
-<p>Hello world</p>
-<h1>user</h1>
-<h2>Current user: <span th:text="${username.username}"></span></h2>
-<div class="new">
-    <div style="border: 2px solid red;
-border-radius:5px;" >
-        <p>firstname<span th:text="${username.firstname}"></span></span></p>
-        <p>lastname<span th:text="${username.lastname}"></span></span></p>
-        <p>dateOfBirth<span th:text="${username.dateOfBirth}"></span> song</p>
-        <p>bio<span th:text="${username.bio}"></span> seconds</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-danger">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Code Fellowship </a>
+        </div>
+        <ul class="navbar-nav mr-auto">
+            <li  class="nav-item active"><a style="color:white" class="nav-link" href="/">Home</a></li>
+<!--            <li class="nav-item active"><a class="nav-link" href="http://localhost:8080/profile/{id}" >Profile</a></li>-->
+            <li  class="nav-item active"><a class="nav-link" style="color:white" href="http://localhost:8080/profile/{id}" sec:authorize="isAuthenticated()">Profile</a></li>
+            <li class="nav-item active"><a class="nav-link" style="color:white" href="/profile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-light my-2 my-sm-0"> <a class="nav-link" href="/perform_logout"> Log out</a></button>
+        </form>
+    </div>
+</nav>
+<br>
+<br>
+
+<div class="card" style="width: 22rem;" >
+    <img class="card-img-top" src="https://icon-library.com/images/user-icon-image/user-icon-image-22.jpg" alt="Card image cap">
+    <div class="card-body" >
+        <h2 class="card-title">Current user:<span th:text="${username.username}"></span></h2>
+        <p class="card-text">First name: <span th:text="${username.firstname}"></span></span></p>
+        <p class="card-text">Last name: <span th:text="${username.lastname}"></span></span></p>
+        <p class="card-text">Date Of Birth: <span th:text="${username.dateOfBirth}"></span></p>
+        <p class="card-text">Bio: <span th:text="${username.bio}"></span></p>
         <br>
     </div>
+</div>
+
+
+<div class="postForm">
+    <form action="/newpost" method="post" >
+        <h1>Add a New Post: </h1>
+
+        <div class="form-outline mb-4">
+            <textarea name="body" class="form-control" id="form6Example7" rows="4"></textarea>
+        </div>
+
+        <input type="submit" value="Add" />
+    </form>
+</div>
+
+<div class="card text-white bg-danger  mb-3" style="max-width: 18rem;">
+    <div class="card-header">Post</div>
+    <div th:each="post : ${posts}" class="card-body" >
+        <p class="card-text" th:text="${post.getBody()}"></p>
+    </div>
+</div>
+
 </body>
 </html>

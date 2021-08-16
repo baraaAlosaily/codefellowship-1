@@ -1,6 +1,7 @@
 package com.example.codefellowship;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ApplicationUserController {
@@ -21,6 +23,9 @@ public class ApplicationUserController {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    PostRepository postRepository;
 
     @GetMapping("/")
     public String getHome(){
@@ -61,5 +66,25 @@ public class ApplicationUserController {
         }
         m.addAttribute("username",applicationUserRepository.findById(id).get());
         return "home.html";
+    }
+
+    @GetMapping("/ownprofile")
+    public String getprofile(Model m){
+        Object princpal= SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(princpal instanceof UserDetails){
+            String username=((UserDetails)princpal).getUsername();
+            ApplicationUser pro=applicationUserRepository.findByUsername(username);
+            m.addAttribute("username",username);
+            m.addAttribute("pro",pro);
+            List<PostModel> post=pro.getPosts();
+            System.out.println(post);
+//            List<PostModel>post= (List<PostModel>) postRepository.findAll();
+//            List<PostModel> post =  postRepository.findAllByUser(pro);
+//            System.out.println(post);
+            m.addAttribute("posts",post);
+        }else {
+            String username=princpal.toString();
+        }
+        return "profile.html";
     }
 }

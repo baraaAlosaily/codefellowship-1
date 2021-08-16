@@ -1,26 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>CodeFellows</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<style>
+        a.nav-link,nav-item{
+        color:white;
+        },
+        a.nav-link{
+        color:white !important;
+        }
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-danger">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">codeFellowship </a>
+            <a style="color:white" class="navbar-brand" href="/">Code Fellowship </a>
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="http://localhost:8080/login">Log in</a></li>
-            <li><a href="http://localhost:8080/signup">Sign Up</a></li>
-            <li><a href="http://localhost:8080/profile/{id}" >Profile</a></li>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/">Home</a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="http://localhost:8080/profile/{id}" >Profile</a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/ownprofile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
         </ul>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-light my-2 my-sm-0"> <a sec:authorize="isAuthenticated()" class="nav-link" href="/perform_logout"> Log out</a></button>
+        </form>
     </div>
 </nav>
-
-<h1>Welcome to codeFellowship web app, create your profile NOW and post what whatever you want!</h1>
+<div style="display: flex;
+  align-items: center;">
+<img src="https://secure.meetupstatic.com/photos/event/5/1/4/c/600_473360812.jpeg" style="width: 1000px; margin: 0 auto;">
+<h1 style="width: 700px; margin: 0 auto;">Welcome to codeFellowship web app, create your profile NOW and post what whatever you want!</h1>
+</div>
 </body>
 </html>
