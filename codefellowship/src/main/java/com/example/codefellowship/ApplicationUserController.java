@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ApplicationUserController {
@@ -61,11 +63,14 @@ public class ApplicationUserController {
         if(princpal instanceof UserDetails){
             String username=((UserDetails)princpal).getUsername();
             m.addAttribute("username",username);
+            ApplicationUser pro=applicationUserRepository.findById(id).get();
+            List<PostModel> post=pro.getPosts();
+            m.addAttribute("postses",post);
         }else {
             String username=princpal.toString();
         }
         m.addAttribute("username",applicationUserRepository.findById(id).get());
-        return "home.html";
+        return "users.html";
     }
 
     @GetMapping("/ownprofile")
@@ -87,4 +92,36 @@ public class ApplicationUserController {
         }
         return "profile.html";
     }
+    @PostMapping("/follow/{id}")
+    public RedirectView follow(Principal p,@PathVariable (value = "id")int id){
+        ApplicationUser myfollow=applicationUserRepository.findByUsername(p.getName());
+        ApplicationUser followed=applicationUserRepository.findById(id).get();
+
+        myfollow.getFollowing().add(followed);
+        followed.getFollowers().add(myfollow);
+        applicationUserRepository.save(myfollow);
+        applicationUserRepository.save(followed);
+        return new RedirectView("/profile/{id}");
+    }
+
+    @GetMapping ("/feed")
+    public String feed(Principal p,Model m){
+        ApplicationUser myfeed=applicationUserRepository.findByUsername(p.getName());
+        Set<ApplicationUser> following=myfeed.getFollowing();
+        m.addAttribute("following",following);
+        m.addAttribute("username",myfeed.getUsername());
+        return "feed.html";
+    }
+    @GetMapping("/findfollowers")
+    public String findfollowers(Model m,Principal p){
+        List<ApplicationUser> allUsers=(List<ApplicationUser>)applicationUserRepository.findAll();
+//        m.addAttribute("username",p.getName());
+        System.out.println(applicationUserRepository.findByUsername(p.getName()).getId());
+//        ApplicationUser pro=applicationUserRepository.findById(id).get();
+//        System.out.println(pro);
+        m.addAttribute("actual",applicationUserRepository.findByUsername(p.getName()).getId());
+        m.addAttribute("users",allUsers);
+        return "searchusers.html";
+    }
+
 }

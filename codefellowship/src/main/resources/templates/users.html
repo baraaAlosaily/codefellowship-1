@@ -22,7 +22,9 @@
             <li  class="nav-item active"><a style="color:white" class="nav-link" href="/">Home</a></li>
 <!--            <li class="nav-item active"><a class="nav-link" href="http://localhost:8080/profile/{id}" >Profile</a></li>-->
             <li  class="nav-item active"><a class="nav-link" style="color:white" href="http://localhost:8080/profile/{id}" sec:authorize="isAuthenticated()">Profile</a></li>
-            <li class="nav-item active"><a class="nav-link" style="color:white" href="/profile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
+            <li class="nav-item active"><a class="nav-link" style="color:white" href="/ownprofile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/feed" sec:authorize="isAuthenticated()">Feed</a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/findfollowers" sec:authorize="isAuthenticated()">Find Users</a></li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <button class="btn btn-outline-light my-2 my-sm-0"> <a class="nav-link" href="/perform_logout"> Log out</a></button>
@@ -44,23 +46,28 @@
     </div>
 </div>
 
+<form method="post" th:action="'/follow/'+ ${username.id}"  sec:authorize="isAuthenticated()">
+    <input class="btn btn-danger" type="submit" value="Follow">
+</form>
 
-<div class="postForm">
-    <form action="/newpost" method="post" >
-        <h1>Add a New Post: </h1>
 
-        <div class="form-outline mb-4">
-            <textarea name="body" class="form-control" id="form6Example7" rows="4"></textarea>
-        </div>
+<!--<div class="postForm">-->
+<!--    <form action="/newpost" method="post" >-->
+<!--        <h1>Add a New Post: </h1>-->
 
-        <input type="submit" value="Add" />
-    </form>
-</div>
+<!--        <div class="form-outline mb-4">-->
+<!--            <textarea name="body" class="form-control" id="form6Example7" rows="4"></textarea>-->
+<!--        </div>-->
 
-<div class="card text-white bg-danger  mb-3" style="max-width: 18rem;">
-    <div class="card-header">Post</div>
-    <div th:each="post : ${posts}" class="card-body" >
-        <p class="card-text" th:text="${post.getBody()}"></p>
+<!--        <input type="submit" value="Add" />-->
+<!--    </form>-->
+<!--</div>-->
+
+<div th:each="post : ${postses}"  class="card text-white bg-danger  mb-3" style="max-width: 40rem;margin-left:10px">
+    <div class="card-header" style="max-width: 50rem; font-size:20px">Post</div>
+    <div class="card-body" >
+        <p style="padding:50px; margin-top:20px" class="card-text" th:text="${post.getBody()}"></p>
+        <p style="padding:50px; margin-top:20px" class="card-text" th:text="${post.getCreatedAt()}"></p>
     </div>
 </div>
 

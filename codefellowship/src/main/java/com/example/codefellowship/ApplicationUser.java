@@ -4,8 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -43,6 +42,19 @@ public class ApplicationUser implements UserDetails {
     public ApplicationUser(){
 
     }
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "following_followers",
+            joinColumns= {@JoinColumn(name = "following_id")},
+            inverseJoinColumns= {@JoinColumn(name = "followers_id")}
+    )
+
+    private Set<ApplicationUser> following=new HashSet<>();
+
+    @ManyToMany(mappedBy = "following")
+    List<ApplicationUser> followers=new ArrayList<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -121,5 +133,25 @@ public class ApplicationUser implements UserDetails {
 
     public void setPosts(List<PostModel> posts) {
         this.posts = posts;
+    }
+
+    public Set<ApplicationUser> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Set<ApplicationUser> following) {
+        this.following = following;
+    }
+
+    public List<ApplicationUser> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(List<ApplicationUser> followers) {
+        this.followers = followers;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
