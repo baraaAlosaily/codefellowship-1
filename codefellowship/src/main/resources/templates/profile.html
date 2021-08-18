@@ -23,6 +23,8 @@
             <!--            <li class="nav-item active"><a class="nav-link" href="http://localhost:8080/profile/{id}" >Profile</a></li>-->
             <li  class="nav-item active"><a class="nav-link" style="color:white" href="http://localhost:8080/profile/{id}" sec:authorize="isAuthenticated()">Profile</a></li>
             <li class="nav-item active"><a class="nav-link" style="color:white" href="/ownprofile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/feed" sec:authorize="isAuthenticated()">Feed</a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/findfollowers" sec:authorize="isAuthenticated()">Find Users</a></li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <button class="btn btn-outline-light my-2 my-sm-0"> <a class="nav-link" href="/perform_logout"> Log out</a></button>

@@ -22,8 +22,9 @@
         </div>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active"><a style="color:white" class="nav-link" href="/">Home</a></li>
-            <li class="nav-item active"><a style="color:white" class="nav-link" href="http://localhost:8080/profile/{id}" >Profile</a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/login" >Log in</a></li>
             <li class="nav-item active"><a style="color:white" class="nav-link" href="/ownprofile" sec:authorize="isAuthenticated()" sec:authentication="name"></a></li>
+            <li class="nav-item active"><a style="color:white" class="nav-link" href="/feed" sec:authorize="isAuthenticated()">Feed</a></li>
         </ul>
         <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0">
             <button class="btn btn-outline-light my-2 my-sm-0"> <a sec:authorize="isAuthenticated()" class="nav-link" href="/perform_logout"> Log out</a></button>

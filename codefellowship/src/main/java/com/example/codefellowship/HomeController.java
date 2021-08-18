@@ -23,6 +23,6 @@
 ////    @GetMapping("/profile/{id}")
 ////    public String getHome(Principal p, Model m,@PathVariable("id") Integer id){
 ////        m.addAttribute("username",applicationUserRepository.findById(id).get());
-////        return "home.html";
+////        return "users.html";
 ////    }
 //}
